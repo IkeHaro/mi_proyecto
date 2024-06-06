@@ -32,6 +32,70 @@ def ingresos_exp():
     plt.grid(axis='y', linestyle='--', alpha=0.7)
     plt.show()
 
+def mapa_poblacion_junior_salarios():
+    
+    # Filtrar los datos para personas de nivel entry-level (junior)
+    junior_df = df[df['experience_level'] == 'EN']
+
+    # Filtrar los datos para personas de nivel entry-level (junior) que trabajan en Estados Unidos
+    us_junior_df = junior_df[junior_df['employee_residence'] == 'US']
+
+    # Crear una gráfica de puntos para visualizar los salarios de nivel junior en Estados Unidos
+    plt.figure(figsize=(10, 6))
+    plt.scatter(us_junior_df['work_year'], us_junior_df['salary_in_usd'], alpha=0.6, edgecolors='w', linewidth=0.5)
+
+    # Agregar etiquetas y título
+    plt.title('Salarios de Personas de Nivel Junior en Ciencia de Datos en Estados Unidos (Entry-level)')
+    plt.xlabel('Año de Trabajo')
+    plt.ylabel('Salario en USD')
+    plt.grid(True)
+    plt.show()
+
+    # Calcular el salario máximo, mínimo y promedio para personas de nivel entry-level en Estados Unidos
+    max_salary_us = us_junior_df['salary_in_usd'].max()
+    min_salary_us = us_junior_df['salary_in_usd'].min()
+    mean_salary_us = us_junior_df['salary_in_usd'].mean()
+
+    max_salary_us, min_salary_us, mean_salary_us
+
+def iqr_poblacion_junior():
+    
+    # Filtrar los datos para personas de nivel entry-level (junior)
+    junior_df = df[df['experience_level'] == 'EN']
+
+    # Filtrar los datos para personas de nivel entry-level (junior) que trabajan en Estados Unidos
+    us_junior_df = junior_df[junior_df['employee_residence'] == 'US']
+
+    # Ajustar el límite superior manualmente para reducir los valores atípicos
+    upper_bound_adjusted = 125000
+
+    # Filtrar los datos para eliminar los valores atípicos con el nuevo límite superior
+    adjusted_us_junior_df = us_junior_df[us_junior_df['salary_in_usd'] <= upper_bound_adjusted]
+
+    # Ajustar el límite inferior para excluir valores por debajo de $50,000
+    lower_bound_adjusted = 50000
+
+    # Filtrar los datos para eliminar los valores atípicos con el nuevo límite inferior
+    adjusted_us_junior_df = adjusted_us_junior_df[adjusted_us_junior_df['salary_in_usd'] >= lower_bound_adjusted]
+
+    # Box plot de salarios por año
+    plt.figure(figsize=(10, 6))
+    sns.boxplot(x='work_year', y='salary_in_usd', data=adjusted_us_junior_df)
+    plt.title('Diagrama de Caja de Salarios de Nivel Junior en Ciencia de Datos en EE.UU. por Año')
+    plt.xlabel('Año de Trabajo')
+    plt.ylabel('Salario en USD')
+    plt.grid(True)
+    plt.show()
+    
+    # Gráfico de violín de salarios por año
+    plt.figure(figsize=(10, 6))
+    sns.violinplot(x='work_year', y='salary_in_usd', data=adjusted_us_junior_df, inner='quartile')
+    plt.title('Distribución de Salarios de Nivel Junior en Ciencia de Datos en EE.UU. por Año')
+    plt.xlabel('Año de Trabajo')
+    plt.ylabel('Salario en USD')
+    plt.grid(True)
+    plt.show()
+
 def ingresos_ubi():
     
     # Agrupar los datos por ubicación de la compañía y calcular el salario promedio en USD
@@ -139,8 +203,67 @@ def tendencia_trabajo_remoto():
     plt.legend(['Fully Remote', 'No Remote Work'], loc='best')
     plt.show()
     
+def salarios_junior(df, experience_level, country):
+   
+    # Filtrar por nivel de experiencia y país
+    filtered_data = df[(df['experience_level'] == experience_level) & (df['company_location'] == country)]
+
+    # Identificar y descartar el dato atípico en el año 2020 si es Estados Unidos y nivel junior
+    if country == 'US' and experience_level == 'EN':
+        filtered_data_2020 = filtered_data[(filtered_data['work_year'] == 2020) & (filtered_data['salary_in_usd'] < filtered_data[filtered_data['work_year'] == 2020]['salary_in_usd'].max())]
+        filtered_data = pd.concat([
+            filtered_data[filtered_data['work_year'] != 2020],
+            filtered_data_2020
+        ])
+
+    # Calcular el promedio de salarios por año
+    average_salaries_by_year = filtered_data.groupby('work_year')['salary_in_usd'].mean()
+
+    # Crear gráfico de los promedios de salarios a lo largo del tiempo
+    plt.figure(figsize=(10, 6))
+    plt.plot(average_salaries_by_year.index, average_salaries_by_year.values, marker='o', linestyle='-', color='green')
+    plt.title(f'Promedio de Salarios de Nivel {experience_level} en {country} por Año')
+    plt.xlabel('Año')
+    plt.ylabel('Promedio de Salario en USD')
+    plt.grid(True)
+    plt.xticks(average_salaries_by_year.index)  # Mostrar solo los años presentes en los datos
+    plt.show()
+
+def tipos_empleos(data, country='US'):
+    
+    # Filtrar los datos para empleados en el país especificado trabajando tiempo completo o medio tiempo
+    filtered_data = data[(data['employment_type'].isin(['FT', 'PT'])) & (data['company_location'] == country)]
+    
+    # Agrupar los datos por año y tipo de empleo, y contar las ocurrencias
+    employment_counts = filtered_data.groupby(['work_year', 'employment_type']).size().unstack(fill_value=0)
+    
+    # Configurar la figura
+    plt.figure(figsize=(10, 6))
+    
+    # Graficar los datos para tiempo completo y medio tiempo
+    plt.plot(employment_counts.index, employment_counts['FT'], marker='o', linestyle='-', color='b', label='Tiempo Completo (FT)')
+    plt.plot(employment_counts.index, employment_counts['PT'], marker='o', linestyle='-', color='r', label='Medio Tiempo (PT)')
+    
+    # Añadiendo título y etiquetas
+    plt.title(f'Cantidad de Personas en Empleos a Tiempo Completo y Medio Tiempo en Ciencia de Datos en {country} (2020-2023)')
+    plt.xlabel('Año')
+    plt.ylabel('Cantidad de Empleados')
+    
+    # Añadiendo leyenda y rejilla
+    plt.legend()
+    plt.grid(True)
+    
+    # Ajustando los ticks del eje x
+    plt.xticks(employment_counts.index)
+    
+    # Mostrar la gráfica
+    plt.show()
     
 ingresos_exp()
 ingresos_ubi()
 trabajo_remoto()
 tendencia_trabajo_remoto()
+salarios_junior(df, 'EN', 'US')
+tipos_empleos(df, 'US')
+mapa_poblacion_junior_salarios()
+iqr_poblacion_junior()
