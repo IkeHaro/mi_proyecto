@@ -11,6 +11,12 @@ df = pd.read_csv(file_path)
 #print(df.info())
 
 def ingresos_exp():
+    
+    """
+    Agrupa los datos por nivel de experiencia y calcula el salario promedio en USD.
+    Luego crea un gráfico de barras para visualizar el salario promedio por nivel de experiencia.
+    
+    """
     # Mapeo para renombrar los niveles de experiencia
     experience_levels = {
         'EN': 'Entry Level',
@@ -33,6 +39,12 @@ def ingresos_exp():
     plt.show()
 
 def mapa_poblacion_junior_salarios():
+    
+    """
+    Filtra los datos para personas de nivel entry-level (junior) que trabajan en Estados Unidos.
+    Luego crea una gráfica de puntos para visualizar los salarios de nivel junior en Estados Unidos.
+    
+    """
     
     # Filtrar los datos para personas de nivel entry-level (junior)
     junior_df = df[df['experience_level'] == 'EN']
@@ -59,6 +71,13 @@ def mapa_poblacion_junior_salarios():
     max_salary_us, min_salary_us, mean_salary_us
 
 def iqr_poblacion_junior():
+    
+    """
+    Filtra los datos para personas de nivel entry-level (junior) que trabajan en Estados Unidos.
+    Ajusta los límites superiores e inferiores de los salarios para reducir los valores atípicos.
+    Luego crea diagramas de caja y de violín para visualizar la distribución de salarios por año.
+    
+    """
     
     # Filtrar los datos para personas de nivel entry-level (junior)
     junior_df = df[df['experience_level'] == 'EN']
@@ -97,6 +116,12 @@ def iqr_poblacion_junior():
     plt.show()
 
 def ingresos_ubi():
+    
+    """
+    Agrupa los datos por ubicación de la compañía y calcula el salario promedio en USD.
+    Luego crea un gráfico de barras para visualizar el salario promedio por ubicación.
+
+    """
     
     # Agrupar los datos por ubicación de la compañía y calcular el salario promedio en USD
     salary_by_location = df.groupby('company_location')['salary_in_usd'].mean().sort_values(ascending=False)
@@ -159,6 +184,12 @@ def ingresos_ubi():
     plt.show()
 
 def trabajo_remoto():
+    
+    """
+    Agrupa los datos por tipo de trabajo remoto y calcula el salario promedio en USD.
+    Luego crea un gráfico de barras para visualizar el salario promedio por tipo de trabajo remoto.
+
+    """
 
     # Agrupar los datos por el ratio de trabajo remoto y calcular el porcentaje de empleados en cada categoría
     remote_work_distribution = df['remote_ratio'].value_counts(normalize=True) * 100
@@ -182,6 +213,12 @@ def trabajo_remoto():
     plt.show()
 
 def tendencia_trabajo_remoto():
+    
+    """
+    Muestra la tendencia del trabajo remoto a lo largo de los años.
+    Luego crea un gráfico de líneas para visualizar la tendencia del trabajo remoto en Ciencia de Datos.
+
+    """
 
     # Agrupar los datos por año y ratio de trabajo remoto y calcular el porcentaje de empleados en cada categoría para cada año
     remote_growth = df.groupby(['work_year', 'remote_ratio']).size().unstack(fill_value=0)
@@ -204,6 +241,17 @@ def tendencia_trabajo_remoto():
     plt.show()
     
 def salarios_junior(df, experience_level, country):
+    
+    """
+    Filtra los datos para personas de nivel junior (entry-level) en el país especificado.
+    Luego crea un gráfico de líneas para visualizar los promedios de salarios de nivel junior a lo largo del tiempo.
+    
+    Args:
+        df (pd.DataFrame): El DataFrame que contiene los datos de salarios.
+        experience_level (str): El nivel de experiencia para filtrar (por defecto 'EN' para Entry Level).
+        country (str): El país para filtrar (por defecto 'US').
+
+    """
    
     # Filtrar por nivel de experiencia y país
     filtered_data = df[(df['experience_level'] == experience_level) & (df['company_location'] == country)]
@@ -230,6 +278,16 @@ def salarios_junior(df, experience_level, country):
     plt.show()
 
 def tipos_empleos(data, country='US'):
+    
+    """
+    Filtra los datos para empleados en el país especificado trabajando tiempo completo o medio tiempo.
+    Luego crea un gráfico de líneas para visualizar la cantidad de personas en empleos a tiempo completo y medio tiempo a lo largo del tiempo.
+    
+    Args:
+        data (pd.DataFrame): El DataFrame que contiene los datos de salarios.
+        country (str): El país para filtrar (por defecto 'US').
+    
+    """
     
     # Filtrar los datos para empleados en el país especificado trabajando tiempo completo o medio tiempo
     filtered_data = data[(data['employment_type'].isin(['FT', 'PT'])) & (data['company_location'] == country)]
