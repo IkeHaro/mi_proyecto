@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Agregar Nueva Oferta de Trabajo</h2>
+    <form method="POST">
+        <label for="titulo">Título:</label>
+        <input type="text" id="titulo" name="titulo" required>
+        <label for="tipo_empleo">Tipo de Empleo:</label>
+        <input type="text" id="tipo_empleo" name="tipo_empleo">
+        <label for="salario">Salario:</label>
+        <input type="number" id="salario" name="salario" step="0.01" required>
+        <label for="empresa_id">Empresa:</label>
+        <select id="empresa_id" name="empresa_id" required>
+            {% for empresa in empresas %}
+                <option value="{{ empresa.empresa_id }}">{{ empresa.nombre }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Agregar Oferta</button>
+    </form>
+</div>
+{% endblock %}

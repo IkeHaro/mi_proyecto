@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Empresas Registradas</h2>
+    <ul>
+        {% for empresa in empresas %}
+            <li>
+                <strong>{{ empresa.nombre }}</strong><br>
+                <small>{{ empresa.ubicacion }}</small><br>
+                <small>{{ empresa.industria }}</small><br>
+                <small>{{ empresa.codigo_postal }}</small><br>
+                <small>{{ empresa.representante }}</small><br>
+                <small>{{ empresa.numero_contacto }}</small>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Ofertas de Trabajo</h2>
+    <ul>
+        {% for oferta in ofertas %}
+            <li>
+                <strong>{{ oferta.titulo }}</strong><br>
+                <small>{{ oferta.tipo_empleo }}</small><br>
+                <small>${{ oferta.salario }}</small><br>
+                <small>{{ oferta.empresa.nombre }}</small>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

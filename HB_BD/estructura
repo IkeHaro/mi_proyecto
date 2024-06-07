@@ -1,0 +1,10 @@
+empleos_app/
+├── app.py
+├── models.py
+├── static/
+│   └── styles.css
+├── templates/
+│   ├── base.html
+│   ├── index.html
+│   ├── add_empresa.html
+│   └── add_oferta.html
