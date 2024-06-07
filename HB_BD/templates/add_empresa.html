@@ -18,5 +18,16 @@
         <input type="text" id="numero_contacto" name="numero_contacto">
         <button type="submit">Agregar Empresa</button>
     </form>
+    
+    <h2>Eliminar Empresa</h2>
+    <form method="POST" action="{{ url_for('delete_empresa') }}">
+        <label for="empresa_id">Selecciona una Empresa:</label>
+        <select id="empresa_id" name="empresa_id" required>
+            {% for empresa in empresas %}
+                <option value="{{ empresa.empresa_id }}">{{ empresa.nombre }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Eliminar Empresa</button>
+    </form>
 </div>
 {% endblock %}

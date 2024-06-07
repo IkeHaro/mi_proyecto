@@ -25,6 +25,7 @@ class Oferta(Base):
     empresa_id = Column(Integer, ForeignKey('empresas.empresa_id'))
 
     empresa = relationship('Empresa', back_populates='ofertas')
+    aplicaciones = relationship('Aplicacion', back_populates='oferta')
 
 class Candidato(Base):
     __tablename__ = 'candidatos'
@@ -33,6 +34,8 @@ class Candidato(Base):
     correo_electronico = Column(String, nullable=False, unique=True)
     nivel_experiencia = Column(String)
 
+    aplicaciones = relationship('Aplicacion', back_populates='candidato')
+
 class Aplicacion(Base):
     __tablename__ = 'aplicaciones'
     aplicacion_id = Column(Integer, primary_key=True, autoincrement=True)
@@ -40,8 +43,8 @@ class Aplicacion(Base):
     oferta_id = Column(Integer, ForeignKey('ofertas.oferta_id'))
     fecha_aplicacion = Column(Date)
 
-    candidato = relationship('Candidato')
-    oferta = relationship('Oferta')
+    candidato = relationship('Candidato', back_populates='aplicaciones')
+    oferta = relationship('Oferta', back_populates='aplicaciones')
 
 # Configuración de la base de datos (SQLite en este caso)
 engine = create_engine('sqlite:///empleos_ciencia_datos.db')

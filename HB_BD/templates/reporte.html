@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Reporte de Ofertas y Aplicaciones</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Título de la Oferta</th>
+                <th>Tipo de Empleo</th>
+                <th>Salario</th>
+                <th>Empresa</th>
+                <th>Candidato</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for resultado in resultados %}
+            <tr>
+                <td>{{ resultado.titulo }}</td>
+                <td>{{ resultado.tipo_empleo }}</td>
+                <td>${{ resultado.salario }}</td>
+                <td>{{ resultado.nombre_empresa }}</td>
+                <td>{{ resultado.nombre_candidato }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
