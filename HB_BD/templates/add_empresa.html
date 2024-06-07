@@ -18,16 +18,22 @@
         <input type="text" id="numero_contacto" name="numero_contacto">
         <button type="submit">Agregar Empresa</button>
     </form>
-    
-    <h2>Eliminar Empresa</h2>
-    <form method="POST" action="{{ url_for('delete_empresa') }}">
-        <label for="empresa_id">Selecciona una Empresa:</label>
-        <select id="empresa_id" name="empresa_id" required>
-            {% for empresa in empresas %}
-                <option value="{{ empresa.empresa_id }}">{{ empresa.nombre }}</option>
-            {% endfor %}
-        </select>
-        <button type="submit">Eliminar Empresa</button>
-    </form>
+
+    <h2>Gestionar Empresas</h2>
+    <ul>
+        {% for empresa in empresas %}
+            <li>
+                {{ empresa.nombre }}
+                <span class="buttons">
+                    <a href="{{ url_for('edit_empresa', empresa_id=empresa.empresa_id) }}" class="button">Editar</a>
+                    <form method="POST" action="{{ url_for('delete_empresa') }}" style="display:inline;">
+                        <input type="hidden" name="empresa_id" value="{{ empresa.empresa_id }}">
+                        <button type="submit" class="button" onclick="return confirm('¿Estás seguro de que deseas eliminar esta empresa?');">Eliminar</button>
+                    </form>
+                </span>
+            </li>
+        {% endfor %}
+    </ul>
 </div>
 {% endblock %}
+

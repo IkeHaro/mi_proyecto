@@ -1,31 +1,21 @@
 {% extends 'base.html' %}
 
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='ofertas.css') }}">
+{% endblock %}
+
 {% block content %}
 <div class="container">
-    <h2>Empresas Registradas</h2>
-    <ul>
-        {% for empresa in empresas %}
-            <li>
-                <strong>{{ empresa.nombre }}</strong><br>
-                <small>{{ empresa.ubicacion }}</small><br>
-                <small>{{ empresa.industria }}</small><br>
-                <small>{{ empresa.codigo_postal }}</small><br>
-                <small>{{ empresa.representante }}</small><br>
-                <small>{{ empresa.numero_contacto }}</small>
-            </li>
-        {% endfor %}
-    </ul>
-
     <h2>Ofertas de Trabajo</h2>
-    <ul>
+    <div class="card-container">
         {% for oferta in ofertas %}
-            <li>
-                <strong>{{ oferta.titulo }}</strong><br>
-                <small>{{ oferta.tipo_empleo }}</small><br>
-                <small>${{ oferta.salario }}</small><br>
-                <small>{{ oferta.empresa.nombre }}</small>
-            </li>
+        <div class="card">
+            <h3>{{ oferta.titulo }}</h3>
+            <p><strong>Tipo de Empleo:</strong> {{ oferta.tipo_empleo }}</p>
+            <p><strong>Salario:</strong> ${{ oferta.salario }}</p>
+            <p><strong>Empresa:</strong> {{ oferta.empresa.nombre }}</p>
+        </div>
         {% endfor %}
-    </ul>
+    </div>
 </div>
 {% endblock %}
