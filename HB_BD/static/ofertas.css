@@ -10,7 +10,7 @@ body {
 }
 
 .container {
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.8);
     padding: 20px;
     border-radius: 10px;
     width: 80%;
@@ -21,6 +21,7 @@ body {
 h2 {
     text-align: center;
     margin-bottom: 20px;
+    color: #ffcc00;
 }
 
 .card-container {
@@ -31,26 +32,44 @@ h2 {
 }
 
 .card {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.9);
     border: 1px solid #ddd;
     border-radius: 10px;
     padding: 20px;
     width: 300px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    color: #fff;
+    color: #333;
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
 
 .card h3 {
-    margin-top: 0;
+    margin-top: 15px;
+    color: #ffcc00;
+    font-size: 1.5em;
 }
 
 .card p {
     margin: 10px 0;
+    font-size: 1em;
+}
+
+.card .details {
+    text-align: left;
+    width: 100%;
+}
+
+.card .details p {
+    margin: 5px 0;
 }
 
 .card .buttons {
@@ -60,8 +79,8 @@ h2 {
 }
 
 .card .button {
-    background-color: #333;
-    color: #fff;
+    background-color: #ffcc00;
+    color: #333;
     border: none;
     padding: 10px 20px;
     cursor: pointer;
@@ -69,8 +88,9 @@ h2 {
     text-decoration: none;
     font-size: 14px;
     text-align: center;
+    transition: background-color 0.2s;
 }
 
 .card .button:hover {
-    background-color: #555;
+    background-color: #ffaa00;
 }

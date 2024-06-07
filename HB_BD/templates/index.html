@@ -1,20 +1,19 @@
 {% extends 'base.html' %}
 
-{% block head %}
-<link rel="stylesheet" href="{{ url_for('static', filename='ofertas.css') }}">
-{% endblock %}
-
 {% block content %}
 <div class="container">
+
     <h2>Ofertas de Trabajo</h2>
-    <div class="card-container">
+    <div class="list-group">
         {% for oferta in ofertas %}
-        <div class="card">
-            <h3>{{ oferta.titulo }}</h3>
-            <p><strong>Tipo de Empleo:</strong> {{ oferta.tipo_empleo }}</p>
-            <p><strong>Salario:</strong> ${{ oferta.salario }}</p>
-            <p><strong>Empresa:</strong> {{ oferta.empresa.nombre }}</p>
-        </div>
+            <div class="list-group-item" style="border: 1px solid #e3e3e3; border-radius: 10px; margin-bottom: 10px; padding: 5px 10px 10px 10px;">
+                <h5 class="mb-1" style="font-size: 1.5em; margin-bottom: 5px;">{{ oferta.titulo }}</h5>
+                <p class="mb-1" style="margin-bottom: 5px;">
+                    <small>Tipo de Empleo: {{ oferta.tipo_empleo }}</small><br>
+                    <small>Salario: ${{ oferta.salario }}</small><br>
+                    <small>Empresa: {{ oferta.empresa.nombre }}</small>
+                </p>
+            </div>
         {% endfor %}
     </div>
 </div>
