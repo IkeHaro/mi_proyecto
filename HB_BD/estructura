@@ -3,6 +3,7 @@ empleos_app/
 ├── models.py
 ├── static/
 │   └── styles.css
+|   |___ ofertas.css
 ├── templates/
 │   ├── base.html
 │   ├── index.html
